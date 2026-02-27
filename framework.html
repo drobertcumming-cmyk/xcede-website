@@ -1,0 +1,1524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The M.O.S. Framework — xcede</title>
+<meta name="description" content="The 19-Pillar Marketing Operations System. Five domains, one integrated diagnostic that measures every dimension of your marketing function and tells you exactly where to build.">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --deep-blue: #0f1540;
+  --deep-blue-mid: #1a237e;
+  --deep-blue-light: rgba(15, 21, 64, 0.06);
+  --accent: #2ecc71;
+  --accent-dim: rgba(46, 204, 113, 0.12);
+  --accent-glow: rgba(46, 204, 113, 0.25);
+  --teal: #1abc9c;
+  --teal-dim: rgba(26, 188, 156, 0.08);
+  --charcoal: #2c2c34;
+  --muted: #6b6b80;
+  --light-muted: #9898a8;
+  --surface: #fafbfe;
+  --surface-warm: #f4f5fa;
+  --white: #ffffff;
+  --border: rgba(15, 21, 64, 0.07);
+  --font-display: 'Cormorant Garamond', serif;
+  --font-body: 'Jost', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  font-family: var(--font-body);
+  color: var(--charcoal);
+  background: var(--white);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.025;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
+
+/* ===== NAV ===== */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  padding: 1.4rem 3.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255,255,255,0.82);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border-bottom: 1px solid var(--border);
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+nav.scrolled {
+  padding: 0.9rem 3.5rem;
+  background: rgba(255,255,255,0.95);
+  box-shadow: 0 4px 30px rgba(15, 21, 64, 0.04);
+}
+
+.nav-logo {
+  font-family: var(--font-body);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--deep-blue);
+  letter-spacing: -0.02em;
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2.75rem;
+  align-items: center;
+  list-style: none;
+}
+
+.nav-links a {
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--muted);
+  text-decoration: none;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  transition: color 0.25s;
+  position: relative;
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0; right: 0;
+  height: 1.5px;
+  background: var(--deep-blue);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-links a:hover { color: var(--deep-blue); }
+.nav-links a:hover::after { transform: scaleX(1); }
+.nav-links a.active { color: var(--deep-blue); }
+.nav-links a.active::after { transform: scaleX(1); }
+
+.nav-cta {
+  background: var(--deep-blue) !important;
+  color: var(--white) !important;
+  padding: 0.7rem 1.6rem !important;
+  border-radius: 3px;
+  font-size: 0.78rem !important;
+  letter-spacing: 0.07em !important;
+  transition: all 0.25s !important;
+}
+
+.nav-cta::after { display: none !important; }
+.nav-cta:hover {
+  background: #1a2060 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(15, 21, 64, 0.18);
+}
+
+/* ===== BUTTONS ===== */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--deep-blue);
+  color: var(--white);
+  padding: 1.05rem 2.25rem;
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 3px;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(135deg, transparent, var(--accent-glow));
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 35px rgba(15, 21, 64, 0.22);
+}
+
+.btn-primary:hover::before { opacity: 1; }
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--deep-blue);
+  padding: 1.05rem 2.25rem;
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1.5px solid rgba(15, 21, 64, 0.2);
+  border-radius: 3px;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-secondary:hover {
+  border-color: var(--deep-blue);
+  background: var(--deep-blue-light);
+  transform: translateY(-1px);
+}
+
+/* ===== HERO ANIMATIONS ===== */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-in { opacity: 0; animation: fadeUp 0.8s cubic-bezier(0, 0, 0.2, 1) forwards; }
+.d1 { animation-delay: 0.1s; }
+.d2 { animation-delay: 0.2s; }
+.d3 { animation-delay: 0.4s; }
+.d4 { animation-delay: 0.6s; }
+.d5 { animation-delay: 0.8s; }
+
+/* ===== SCROLL REVEAL ===== */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.7s cubic-bezier(0, 0, 0.2, 1);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===== SHARED SECTION PATTERNS ===== */
+.section-standard {
+  padding: 9rem 3.5rem;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.section-surface {
+  padding: 9rem 3.5rem;
+  background: var(--surface);
+}
+
+.section-surface .inner {
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.section-dark {
+  padding: 9rem 3.5rem;
+  background: var(--deep-blue);
+  position: relative;
+  overflow: hidden;
+}
+
+.section-dark .inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.section-label {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.section-label::before {
+  content: '';
+  width: 24px;
+  height: 1.5px;
+  background: var(--teal);
+}
+
+h2 {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 4.5vw, 3.5rem);
+  color: var(--deep-blue);
+  margin-bottom: 1.25rem;
+  line-height: 1.1;
+  font-weight: 300;
+}
+
+h2 em {
+  font-style: italic;
+  color: var(--accent);
+  font-weight: 300;
+}
+
+h3 {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  color: var(--deep-blue);
+  line-height: 1.2;
+  font-weight: 400;
+}
+
+.lead {
+  font-family: var(--font-body);
+  font-size: 1.15rem;
+  line-height: 1.75;
+  color: var(--muted);
+  max-width: 640px;
+  margin-bottom: 4rem;
+  font-weight: 300;
+}
+
+/* ===== X-DIAMOND DECORATIONS ===== */
+.x-diamond {
+  position: absolute;
+  border: 1.5px solid rgba(15, 21, 64, 0.05);
+  transform: rotate(45deg);
+  pointer-events: none;
+  border-radius: 3px;
+}
+
+@keyframes diamondFloat {
+  0%, 100% { transform: rotate(45deg) translate(0, 0); }
+  50% { transform: rotate(45deg) translate(8px, -8px); }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.08); }
+}
+
+/* ===== FRAMEWORK HERO (DARK) ===== */
+.framework-hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding: 9rem 3.5rem 5rem;
+  overflow: hidden;
+  background: var(--deep-blue);
+}
+
+.framework-hero .inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+.framework-hero-content .section-label {
+  color: rgba(255,255,255,0.35);
+}
+
+.framework-hero-content .section-label::before {
+  background: rgba(255,255,255,0.35);
+}
+
+.framework-hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(3.2rem, 6.5vw, 5.5rem);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  color: var(--white);
+  margin-bottom: 2rem;
+  font-weight: 300;
+}
+
+.framework-hero h1 em {
+  font-style: italic;
+  color: var(--accent);
+  font-weight: 300;
+}
+
+.framework-hero .hero-lead {
+  font-family: var(--font-body);
+  font-size: 1.15rem;
+  line-height: 1.75;
+  color: rgba(255,255,255,0.6);
+  max-width: 580px;
+  margin-bottom: 2rem;
+  font-weight: 300;
+}
+
+.framework-hero .hero-sub-text {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.75;
+  color: rgba(255,255,255,0.6);
+  max-width: 560px;
+  font-weight: 300;
+}
+
+/* MOS Diamond Visual (reused from homepage) */
+.mos-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.mos-diamond-visual {
+  width: 280px;
+  height: 280px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mos-diamond-visual::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 2px solid rgba(255,255,255,0.1);
+  transform: rotate(45deg);
+  border-radius: 6px;
+}
+
+.mos-diamond-visual::after {
+  content: '';
+  position: absolute;
+  inset: 30px;
+  border: 1.5px solid rgba(46, 204, 113, 0.2);
+  transform: rotate(45deg);
+  border-radius: 4px;
+}
+
+.mos-number {
+  font-family: var(--font-display);
+  font-size: 5rem;
+  font-weight: 300;
+  color: var(--accent);
+  position: relative;
+  z-index: 1;
+}
+
+.orbit-dot {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0.5;
+}
+
+.orbit-dot:nth-child(2) { top: 20%; right: 5%; }
+.orbit-dot:nth-child(3) { bottom: 15%; right: 10%; }
+.orbit-dot:nth-child(4) { bottom: 25%; left: 8%; }
+.orbit-dot:nth-child(5) { top: 10%; left: 15%; }
+.orbit-dot:nth-child(6) { top: 50%; right: -5%; opacity: 0.3; width: 6px; height: 6px; }
+
+/* ===== DOMAINS SECTION (DARK) ===== */
+.domains-section {
+  padding: 0 3.5rem 9rem;
+  background: var(--deep-blue);
+  position: relative;
+  overflow: hidden;
+}
+
+.domains-section .inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.domains-section .section-label {
+  color: rgba(255,255,255,0.35);
+}
+
+.domains-section .section-label::before {
+  background: rgba(255,255,255,0.35);
+}
+
+.domains-section h2 {
+  color: var(--white);
+  margin-bottom: 1.25rem;
+}
+
+.domains-section .lead {
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 3.5rem;
+}
+
+.domain-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1.25rem;
+}
+
+.domain-card {
+  padding: 2.25rem 1.75rem;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 4px;
+  background: rgba(255,255,255,0.02);
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  text-decoration: none;
+  display: block;
+}
+
+.domain-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.domain-card:hover {
+  border-color: rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.04);
+  transform: translateY(-3px);
+}
+
+.domain-card:hover::before { transform: scaleX(1); }
+
+.domain-card:nth-child(1)::before { background: #7986cb; }
+.domain-card:nth-child(2)::before { background: var(--teal); }
+.domain-card:nth-child(3)::before { background: #27ae88; }
+.domain-card:nth-child(4)::before { background: var(--accent); }
+.domain-card:nth-child(5)::before { background: #f0a030; }
+
+.domain-card .domain-number {
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+  font-weight: 300;
+  margin-bottom: 0.75rem;
+  line-height: 1;
+}
+
+.domain-card:nth-child(1) .domain-number { color: #7986cb; }
+.domain-card:nth-child(2) .domain-number { color: var(--teal); }
+.domain-card:nth-child(3) .domain-number { color: #27ae88; }
+.domain-card:nth-child(4) .domain-number { color: var(--accent); }
+.domain-card:nth-child(5) .domain-number { color: #f0a030; }
+
+.domain-card .domain-name {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.4;
+  margin-bottom: 0.75rem;
+}
+
+.domain-card .domain-pillar-count {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.3);
+  font-weight: 300;
+}
+
+.domain-card .domain-arrow {
+  position: absolute;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.2);
+  transition: all 0.3s;
+}
+
+.domain-card:hover .domain-arrow {
+  color: rgba(255,255,255,0.5);
+  transform: translateY(2px);
+}
+
+/* ===== ALL 19 PILLARS SECTION (WHITE BG) ===== */
+.pillars-section {
+  padding: 9rem 3.5rem;
+}
+
+.pillars-section .inner {
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.pillars-section .section-label {
+  color: var(--teal);
+}
+
+.pillars-section h2 {
+  margin-bottom: 1.25rem;
+}
+
+.pillars-section .lead {
+  margin-bottom: 5rem;
+}
+
+/* Domain group header */
+.domain-group {
+  margin-bottom: 5rem;
+}
+
+.domain-group:last-child {
+  margin-bottom: 0;
+}
+
+.domain-group-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 2px solid var(--surface);
+}
+
+.domain-group-color {
+  width: 4px;
+  height: 36px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.domain-group-header h3 {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--charcoal);
+  line-height: 1;
+}
+
+.domain-group-header .domain-group-subtitle {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  color: var(--light-muted);
+  font-weight: 300;
+  margin-left: auto;
+}
+
+/* Pillar cards */
+.pillar-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.75rem;
+}
+
+.pillar-card {
+  padding: 2.5rem 2.25rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--white);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.pillar-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px;
+  height: 100%;
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.pillar-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 50px rgba(15, 21, 64, 0.06);
+}
+
+.pillar-card:hover::before { transform: scaleY(1); }
+
+.pillar-card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.pillar-number {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  flex-shrink: 0;
+  line-height: 1.2;
+}
+
+.pillar-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-left: auto;
+  opacity: 0.7;
+  transition: opacity 0.3s;
+}
+
+.pillar-card:hover .pillar-icon { opacity: 1; }
+
+.pillar-card h3 {
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+}
+
+.pillar-card .pillar-desc {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--muted);
+  font-weight: 300;
+  margin-bottom: 1.25rem;
+}
+
+.pillar-card .leverage-point {
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: var(--charcoal);
+  font-weight: 400;
+  padding: 0.85rem 1rem;
+  background: var(--surface);
+  border-radius: 3px;
+  border-left: 2px solid;
+}
+
+.leverage-label {
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--light-muted);
+  display: block;
+  margin-bottom: 0.35rem;
+}
+
+/* Domain-specific colors */
+.domain-1 .pillar-card::before { background: linear-gradient(180deg, #7986cb, #5c6bc0); }
+.domain-1 .pillar-number { color: #7986cb; }
+.domain-1 .pillar-icon { background: rgba(121, 134, 203, 0.1); color: #7986cb; }
+.domain-1 .leverage-point { border-left-color: #7986cb; }
+
+.domain-2 .pillar-card::before { background: linear-gradient(180deg, var(--teal), #16a085); }
+.domain-2 .pillar-number { color: var(--teal); }
+.domain-2 .pillar-icon { background: var(--teal-dim); color: var(--teal); }
+.domain-2 .leverage-point { border-left-color: var(--teal); }
+
+.domain-3 .pillar-card::before { background: linear-gradient(180deg, #27ae88, #1e8e6e); }
+.domain-3 .pillar-number { color: #27ae88; }
+.domain-3 .pillar-icon { background: rgba(39, 174, 136, 0.1); color: #27ae88; }
+.domain-3 .leverage-point { border-left-color: #27ae88; }
+
+.domain-4 .pillar-card::before { background: linear-gradient(180deg, var(--accent), #27ae60); }
+.domain-4 .pillar-number { color: var(--accent); }
+.domain-4 .pillar-icon { background: var(--accent-dim); color: var(--accent); }
+.domain-4 .leverage-point { border-left-color: var(--accent); }
+
+.domain-5 .pillar-card::before { background: linear-gradient(180deg, #f0a030, #e8912a); }
+.domain-5 .pillar-number { color: #f0a030; }
+.domain-5 .pillar-icon { background: rgba(240, 160, 48, 0.1); color: #f0a030; }
+.domain-5 .leverage-point { border-left-color: #f0a030; }
+
+/* Full-width single pillar card */
+.pillar-grid.single-pillar {
+  grid-template-columns: 1fr;
+  max-width: 680px;
+}
+
+/* ===== HOW IT WORKS SECTION ===== */
+.how-section {
+  padding: 9rem 3.5rem;
+  background: var(--surface);
+}
+
+.how-section .inner {
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.how-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin-top: 3.5rem;
+}
+
+.how-card {
+  padding: 2.75rem 2.25rem;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.how-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--teal), var(--accent));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.how-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 50px rgba(15, 21, 64, 0.06);
+}
+
+.how-card:hover::after { transform: scaleX(1); }
+
+.how-step-number {
+  font-family: var(--font-display);
+  font-size: 3.5rem;
+  font-weight: 300;
+  color: var(--accent);
+  line-height: 1;
+  margin-bottom: 1.25rem;
+}
+
+.how-card h3 {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.how-card p {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--muted);
+  font-weight: 300;
+}
+
+/* ===== CTA SECTION ===== */
+.cta-section {
+  padding: 9rem 3.5rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-section .section-label { justify-content: center; }
+.cta-section .section-label::before { display: none; }
+
+.cta-section h2 { margin-bottom: 1.25rem; }
+
+.cta-section .lead {
+  max-width: 600px;
+  margin: 0 auto 2.5rem;
+}
+
+.cta-actions {
+  display: flex;
+  gap: 1.25rem;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===== FOOTER ===== */
+footer {
+  background: var(--deep-blue);
+  padding: 0 3.5rem 2.5rem;
+  position: relative;
+}
+
+footer::before {
+  content: '';
+  display: block;
+  height: 3px;
+  background: linear-gradient(90deg, var(--deep-blue), var(--teal), var(--accent), var(--teal), var(--deep-blue));
+}
+
+.footer-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding-top: 4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-bottom: 3rem;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.footer-brand .logo {
+  font-family: var(--font-body);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: -0.02em;
+  margin-bottom: 0.75rem;
+}
+
+.footer-brand .tagline {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  color: rgba(255,255,255,0.35);
+  font-style: italic;
+}
+
+.footer-links {
+  display: flex;
+  gap: 4rem;
+}
+
+.footer-col h4 {
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+  margin-bottom: 1.25rem;
+}
+
+.footer-col a {
+  display: block;
+  font-size: 0.88rem;
+  color: rgba(255,255,255,0.55);
+  text-decoration: none;
+  margin-bottom: 0.65rem;
+  font-weight: 300;
+  transition: color 0.25s;
+}
+
+.footer-col a:hover { color: var(--accent); }
+
+.footer-bottom {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding-top: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-bottom p {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.2);
+  font-weight: 300;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .framework-hero .inner { grid-template-columns: 1fr; gap: 3rem; }
+  .domain-grid { grid-template-columns: repeat(3, 1fr); }
+  .pillar-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+  nav { padding: 1rem 1.5rem; }
+  nav.scrolled { padding: 0.75rem 1.5rem; }
+  .nav-links { display: none; }
+  .framework-hero { padding: 7rem 1.5rem 4rem; min-height: auto; }
+  .framework-hero h1 { font-size: clamp(2.4rem, 8vw, 3.5rem); }
+  .section-standard { padding: 5rem 1.5rem; }
+  .section-surface { padding: 5rem 1.5rem; }
+  .section-dark { padding: 5rem 1.5rem; }
+  .pillars-section { padding: 5rem 1.5rem; }
+  .how-section { padding: 5rem 1.5rem; }
+  .cta-section { padding: 5rem 1.5rem; }
+  .domains-section { padding: 0 1.5rem 5rem; }
+  .domain-grid { grid-template-columns: 1fr; }
+  .pillar-grid { grid-template-columns: 1fr; }
+  .how-grid { grid-template-columns: 1fr; }
+  .footer-inner { flex-direction: column; gap: 2.5rem; }
+  .footer-links { gap: 2rem; flex-wrap: wrap; }
+  .footer-bottom { flex-direction: column; gap: 0.5rem; text-align: center; }
+  .cta-actions { flex-direction: column; align-items: center; }
+  .x-diamond { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">xcede</a>
+  <ul class="nav-links">
+    <li><a href="methodology.html">Methodology</a></li>
+    <li><a href="framework.html">Framework</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="insights.html">Insights</a></li>
+    <li><a href="contact.html" class="nav-cta">Start a Conversation</a></li>
+  </ul>
+</nav>
+
+<!-- HERO (DARK) -->
+<section class="framework-hero">
+  <div class="x-diamond" style="top:-100px;right:-80px;width:450px;height:450px;border-color:rgba(255,255,255,0.03);animation:diamondFloat 12s ease-in-out infinite;"></div>
+  <div class="x-diamond" style="bottom:-120px;left:-60px;width:350px;height:350px;border-color:rgba(255,255,255,0.02);animation:diamondFloat 14s ease-in-out 3s infinite;"></div>
+  <div class="x-diamond" style="top:40%;left:-40px;width:200px;height:200px;border-color:rgba(255,255,255,0.02);animation:diamondFloat 10s ease-in-out 1s infinite;"></div>
+
+  <div class="inner">
+    <div class="framework-hero-content">
+      <div class="section-label animate-in d1">The Framework</div>
+      <h1 class="animate-in d2">The Marketing Operations <em>System</em>.</h1>
+      <p class="hero-lead animate-in d3">19 pillars. 5 operational domains. One integrated diagnostic that measures everything — and tells you exactly where to build.</p>
+      <p class="hero-sub-text animate-in d4">Every company's marketing operation has gaps. Most don't know where. The M.O.S. scores every dimension of your marketing function against a 0&ndash;100 maturity scale, identifies the highest-leverage interventions, and sequences them for maximum impact.</p>
+    </div>
+    <div class="mos-visual animate-in d5">
+      <div class="mos-diamond-visual">
+        <span class="mos-number">19</span>
+        <span class="orbit-dot"></span>
+        <span class="orbit-dot"></span>
+        <span class="orbit-dot"></span>
+        <span class="orbit-dot"></span>
+        <span class="orbit-dot"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THE FIVE DOMAINS (DARK) -->
+<section class="domains-section">
+  <div class="x-diamond" style="top:50%;right:-60px;width:280px;height:280px;border-color:rgba(255,255,255,0.02);animation:diamondFloat 11s ease-in-out 2s infinite;"></div>
+
+  <div class="inner">
+    <div class="section-label reveal">Five Domains</div>
+    <h2 class="reveal">The operational architecture behind every <em>score</em>.</h2>
+    <p class="lead reveal">Each domain groups related pillars into a coherent operational area. Together they form a complete map of marketing capability.</p>
+
+    <div class="domain-grid">
+      <a href="#domain-1" class="domain-card reveal">
+        <div class="domain-number">4</div>
+        <div class="domain-name">Intelligence &amp; Strategy</div>
+        <div class="domain-pillar-count">Pillars 1&ndash;4</div>
+        <span class="domain-arrow">&darr;</span>
+      </a>
+      <a href="#domain-2" class="domain-card reveal">
+        <div class="domain-number">3</div>
+        <div class="domain-name">Messaging &amp; Conversion</div>
+        <div class="domain-pillar-count">Pillars 5&ndash;7</div>
+        <span class="domain-arrow">&darr;</span>
+      </a>
+      <a href="#domain-3" class="domain-card reveal">
+        <div class="domain-number">6</div>
+        <div class="domain-name">Channels &amp; Distribution</div>
+        <div class="domain-pillar-count">Pillars 8&ndash;13</div>
+        <span class="domain-arrow">&darr;</span>
+      </a>
+      <a href="#domain-4" class="domain-card reveal">
+        <div class="domain-number">5</div>
+        <div class="domain-name">Infrastructure &amp; Operations</div>
+        <div class="domain-pillar-count">Pillars 14&ndash;18</div>
+        <span class="domain-arrow">&darr;</span>
+      </a>
+      <a href="#domain-5" class="domain-card reveal">
+        <div class="domain-number">1</div>
+        <div class="domain-name">Retention &amp; Growth</div>
+        <div class="domain-pillar-count">Pillar 19</div>
+        <span class="domain-arrow">&darr;</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ALL 19 PILLARS (WHITE BG) -->
+<section class="pillars-section">
+  <div class="inner">
+    <div class="section-label reveal">All 19 Pillars</div>
+    <h2 class="reveal">Every dimension of your marketing <em>operation</em>.</h2>
+    <p class="lead reveal">Each pillar is scored independently during the diagnostic. Together they reveal the complete picture of your marketing maturity — and the precise sequence for improvement.</p>
+
+    <!-- DOMAIN 1: Intelligence & Strategy -->
+    <div class="domain-group domain-1" id="domain-1">
+      <div class="domain-group-header reveal">
+        <div class="domain-group-color" style="background: #7986cb;"></div>
+        <h3>Domain 1 &mdash; Intelligence &amp; Strategy</h3>
+        <span class="domain-group-subtitle">4 Pillars</span>
+      </div>
+
+      <div class="pillar-grid">
+        <div class="pillar-card reveal">
+          <div class="pillar-card-header">
+            <span class="pillar-number">01</span>
+            <div class="pillar-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+            </div>
+          </div>
+          <h3>Market Research &amp; Intelligence</h3>
+          <p class="pillar-desc">The foundation of every strategic decision. This pillar evaluates how systematically your organisation gathers, synthesises, and acts on market data — including competitor movements, industry trends, and shifts in buyer behaviour. Without continuous intelligence, marketing strategy becomes guesswork.</p>
+          <div class="leverage-point">
+            <span class="leverage-label">Leverage Point</span>
+            Companies with mature market intelligence capabilities make faster, more accurate strategic bets — reducing wasted spend on campaigns that miss the market.
+          </div>
+        </div>
+
+        <div class="pillar-card reveal">
+          <div class="pillar-card-header">
+            <span class="pillar-number">02</span>
+            <div class="pillar-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+          </div>
+          <h3>ICP &amp; Segmentation</h3>
+          <p class="pillar-desc">Measures the precision of your ideal customer profiles and the sophistication of your market segmentation. This pillar assesses whether your organisation truly understands who its most valuable buyers are, what distinguishes high-value segments from low-value ones, and how well that understanding informs targeting across every channel.</p>
+          <div class="leverage-point">
+            <span class="leverage-label">Leverage Point</span>
+            Precise segmentation is the single greatest multiplier on marketing efficiency — it determines whether your budget reaches the people most likely to buy.
+          </div>
+        </div>
+
+        <div class="pillar-card reveal">
+          <div class="pillar-card-header">
+            <span class="pillar-number">03</span>
+            <div class="pillar-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            </div>
+          </div>
+          <h3>Buyer Psychology &amp; Emotional Trigger Mapping</h3>
+          <p class="pillar-desc">Evaluates how deeply your organisation understands the emotional and psychological drivers behind purchase decisions. This goes beyond demographics and firmographics into the fears, aspirations, objections, and decision-making patterns that actually govern whether a prospect moves forward or stalls.</p>
+          <div class="leverage-point">
+            <span class="leverage-label">Leverage Point</span>
+            When messaging aligns with genuine buyer psychology rather than assumed needs, conversion rates increase at every stage of the funnel without increasing spend.
+          </div>
+        </div>
+
+        <div class="pillar-card reveal">
+          <div class="pillar-card-header">
+            <span class="pillar-number">04</span>
+            <div class="pillar-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+            </div>
+          </div>
+          <h3>Brand Positioning &amp; Competitive Narrative</h3>
+          <p class="pillar-desc">Assesses the clarity, differentiation, and consistency of your brand's market position. This pillar examines whether your organisation has a defensible narrative that separates it from competitors — and whether that narrative is consistently expressed across every touchpoint, from the website to sales conversations.</p>
+          <div class="leverage-point">
+            <span class="leverage-label">Leverage Point</span>
+            Strong positioning reduces acquisition costs by giving prospects a clear reason to choose you — eliminating the need to compete on price alone.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DOMAIN 2: Messaging & Conversion -->
+    <div class="domain-group domain-2" id="domain-2">
+      <div class="domain-group-header reveal">
+        <div class="domain-group-color" style="background: #1abc9c;"></div>
+        <h3>Domain 2 &mdash; Messaging &amp; Conversion</h3>
+        <span class="domain-group-subtitle">3 Pillars</span>
+      </div>
+
+      <div class="pillar-grid">
+        <div class="pillar-card reveal">
+          <div class="pillar-card-header">
+            <span class="pillar-number">05</span>
+            <div class="pillar-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            </div>
+          </div>
+          <h3>Messaging &amp; Offer Architecture</h3>
+          <p class="pillar-desc">Evaluates the structure and effectiveness of your core messaging framework and the design of your offers. This pillar examines whether your value propositions are clear, whether your messaging adapts to different audience segments and funnel stages, and whether your offers create genuine urgency and perceived value.</p>
+          <div class="leverage-point">
+            <span class="leverage-label">Leverage Point</span>
+            Messaging architecture determines how much of your traffic converts — weak messaging makes even high-quality leads abandon the funnel.
+          </div>
+        </div>
+
+        <div class="pillar-card reveal">
+          <div class="pillar-card-header">
+            <span class="pillar-number">06</span>
+            <div class="pillar-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </div>
+          </div>
+          <h3>Funnel Architecture &amp; Conversion Pathways</h3>
+          <p class="pillar-desc">Measures the intentionality and effectiveness of your end-to-end conversion pathways. This pillar assesses whether your marketing function has clearly defined stages from awareness through to purchase, whether each transition point is deliberately designed, and whether there are systematic mechanisms to recover prospects who disengage.</p>
+          <div class="leverage-point">
+            <span class="leverage-label">Leverage Point</span>
+            Most companies lose the majority of potential revenue between funnel stages — structured conversion pathways recover that leakage systematically.
+          </div>
+        </div>
+
+        <div class="pillar-card reveal">
+          <div class="pillar-card-header">
+            <span class="pillar-number">07</span>
+            <div class="pillar-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+            </div>
+          </div>
+          <h3>CRO &amp; Experimentation</h3>
+          <p class="pillar-desc">Assesses your organisation's capacity for continuous, data-driven optimisation of conversion performance. This pillar evaluates whether testing is systematic or ad-hoc, whether there is a disciplined experimentation process in place, and whether insights from tests are documented and applied across the marketing operation.</p>
+          <div class="leverage-point">
+            <span class="leverage-label">Leverage Point</span>
+            A mature experimentation discipline compounds small gains into significant revenue improvements over time — without requiring additional traffic or budget.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DOMAIN 3: Channels & Distribution -->
+    <div class="domain-group domain-3" id="domain-3">
+      <div class="domain-group-header reveal">
+        <div class="domain-group-color" style="background: #27ae88;"></div>
+        <h3>Domain 3 &mdash; Channels &amp; Distribution</h3>
+        <span class="domain-group-subtitle">6 Pillars</span>
+      </div>
+
+      <div class="pillar-grid">
+        <div class="pillar-card reveal">
+          <div class="pillar-card-header">
+            <span class="pillar-number">08</span>
+            <div class="pillar-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+          </div>
+          <h3>Email Lifecycle &amp; Automation</h3>
+          <p class="pillar-desc">Evaluates the sophistication and performance of your email marketing infrastructure. This pillar examines whether email is treated as a strategic lifecycle channel with behaviour-triggered sequences, or merely as a broadcast tool. It assesses deliverability health, segmentation depth, and the degree to which email drives measurable revenue outcomes.</p>
+          <div class="leverage-point">
+            <span class="leverage-label">Leverage Point</span>
+            Email remains the highest-ROI channel in B2B marketing — but only when it operates as an automated system, not a manual send schedule.
+          </div>
+        </div>
+
+        <div class="pillar-card reveal">
+          <div class="pillar-card-header">
+            <span class="pillar-number">09</span>
+            <div class="pillar-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </div>
+          </div>
+          <h3>SMS &amp; Omnichannel Orchestration</h3>
+          <p class="pillar-desc">Measures your ability to coordinate messaging across multiple channels in a unified, coherent experience. This pillar assesses whether SMS, push notifications, and other direct channels are integrated into your broader marketing strategy, or operating as disconnected silos with overlapping or contradictory messages.</p>
+          <div class="leverage-point">
+            <span class="leverage-label">Leverage Point</span>
+            Buyers interact across multiple channels before purchasing — disjointed experiences erode trust and reduce conversion at every touchpoint.
+          </div>
+        </div>
+
+        <div class="pillar-card reveal">
+          <div class="pillar-card-header">
+            <span class="pillar-number">10</span>
+            <div class="pillar-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+            </div>
+          </div>
+          <h3>Paid Traffic &amp; Media Strategy</h3>
+          <p class="pillar-desc">Evaluates the strategic sophistication and efficiency of your paid acquisition channels. This pillar examines whether paid media is being used with clear unit economics, whether targeting leverages your ICP data, and whether there is a systematic approach to testing creative, audiences, and placements rather than relying on platform defaults.</p>
+          <div class="leverage-point">
+            <span class="leverage-label">Leverage Point</span>
+            Paid media without strategic discipline is the fastest way to burn budget — structured media operations consistently reduce cost-per-acquisition over time.
+          </div>
+        </div>
+
+        <div class="pillar-card reveal">
+          <div class="pillar-card-header">
+            <span class="pillar-number">11</span>
+            <div class="pillar-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            </div>
+          </div>
+          <h3>Content Strategy &amp; Demand Generation</h3>
+          <p class="pillar-desc">Assesses whether your content operates as a strategic demand-generation engine or merely fills a publishing calendar. This pillar examines the alignment between content topics and buyer intent, the effectiveness of content distribution, and whether content assets actively generate and nurture pipeline rather than simply existing for brand presence.</p>
+          <div class="leverage-point">
+            <span class="leverage-label">Leverage Point</span>
+            Strategic content creates compounding inbound demand over time — reducing dependence on paid channels and building durable competitive advantage.
+          </div>
+        </div>
+
+        <div class="pillar-card reveal">
+          <div class="pillar-card-header">
+            <span class="pillar-number">12</span>
+            <div class="pillar-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+            </div>
+          </div>
+          <h3>Social Media &amp; Community</h3>
+          <p class="pillar-desc">Evaluates your organisation's social presence and community-building capability as a strategic marketing function. This pillar measures whether social channels contribute to pipeline and brand equity, whether there is genuine engagement with relevant audiences, and whether community assets are being developed as long-term competitive moats.</p>
+          <div class="leverage-point">
+            <span class="leverage-label">Leverage Point</span>
+            Social and community channels build trust at scale before prospects ever enter the funnel — shortening sales cycles and reducing acquisition cost.
+          </div>
+        </div>
+
+        <div class="pillar-card reveal">
+          <div class="pillar-card-header">
+            <span class="pillar-number">13</span>
+            <div class="pillar-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><path d="M11 18H8a2 2 0 0 1-2-2V9"/></svg>
+            </div>
+          </div>
+          <h3>Influencer, Affiliate &amp; Partnership Strategy</h3>
+          <p class="pillar-desc">Measures how effectively your organisation leverages third-party relationships to extend reach and credibility. This pillar assesses whether partnerships are pursued strategically with clear selection criteria and performance expectations, or opportunistically without measurable outcomes.</p>
+          <div class="leverage-point">
+            <span class="leverage-label">Leverage Point</span>
+            Third-party endorsement and distribution can dramatically accelerate market penetration — but only when partnerships are structured with clear mutual value.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DOMAIN 4: Infrastructure & Operations -->
+    <div class="domain-group domain-4" id="domain-4">
+      <div class="domain-group-header reveal">
+        <div class="domain-group-color" style="background: #2ecc71;"></div>
+        <h3>Domain 4 &mdash; Infrastructure &amp; Operations</h3>
+        <span class="domain-group-subtitle">5 Pillars</span>
+      </div>
+
+      <div class="pillar-grid">
+        <div class="pillar-card reveal">
+          <div class="pillar-card-header">
+            <span class="pillar-number">14</span>
+            <div class="pillar-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M8 7l4-4 4 4"/><rect x="4" y="14" width="16" height="7" rx="1"/></svg>
+            </div>
+          </div>
+          <h3>Lead Generation &amp; Magnet Strategy</h3>
+          <p class="pillar-desc">Assesses the quality, diversity, and conversion effectiveness of your lead generation mechanisms. This pillar evaluates whether your organisation has a systematic approach to attracting qualified prospects through compelling lead magnets, landing pages, and capture mechanisms — and whether those leads are genuinely qualified or merely filling a database.</p>
+          <div class="leverage-point">
+            <span class="leverage-label">Leverage Point</span>
+            The quality of leads entering your system determines the efficiency of everything downstream — poor lead generation poisons the entire funnel.
+          </div>
+        </div>
+
+        <div class="pillar-card reveal">
+          <div class="pillar-card-header">
+            <span class="pillar-number">15</span>
+            <div class="pillar-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            </div>
+          </div>
+          <h3>Automation, CRM &amp; Workflow Engineering</h3>
+          <p class="pillar-desc">Evaluates the maturity of your marketing technology infrastructure and the degree to which manual processes have been replaced by reliable automated workflows. This pillar examines CRM data hygiene, integration between systems, and whether your automation actually reduces operational burden or has become its own source of complexity.</p>
+          <div class="leverage-point">
+            <span class="leverage-label">Leverage Point</span>
+            Automation is what separates marketing operations that scale from those that collapse under their own weight — it is the backbone of compounding growth.
+          </div>
+        </div>
+
+        <div class="pillar-card reveal">
+          <div class="pillar-card-header">
+            <span class="pillar-number">16</span>
+            <div class="pillar-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+            </div>
+          </div>
+          <h3>Personalisation &amp; Adaptive Journeys</h3>
+          <p class="pillar-desc">Measures your capability to deliver dynamically personalised experiences based on real-time behaviour, preferences, and lifecycle stage. This pillar assesses whether personalisation goes beyond inserting a first name — into genuinely adaptive content, offers, and journey paths that respond to individual prospect behaviour.</p>
+          <div class="leverage-point">
+            <span class="leverage-label">Leverage Point</span>
+            True personalisation increases engagement and conversion rates across every channel — making the same audience significantly more valuable without growing it.
+          </div>
+        </div>
+
+        <div class="pillar-card reveal">
+          <div class="pillar-card-header">
+            <span class="pillar-number">17</span>
+            <div class="pillar-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+            </div>
+          </div>
+          <h3>Attribution &amp; Measurement</h3>
+          <p class="pillar-desc">Assesses your ability to accurately understand what is driving revenue and what is consuming budget without return. This pillar evaluates whether your organisation has reliable attribution across the full customer journey, whether reporting drives actual decisions, and whether measurement sophistication matches the complexity of your marketing operation.</p>
+          <div class="leverage-point">
+            <span class="leverage-label">Leverage Point</span>
+            Without accurate attribution, every budget allocation is a guess — mature measurement transforms marketing from a cost centre into a predictable growth engine.
+          </div>
+        </div>
+
+        <div class="pillar-card reveal">
+          <div class="pillar-card-header">
+            <span class="pillar-number">18</span>
+            <div class="pillar-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+          </div>
+          <h3>Compliance &amp; Risk Management</h3>
+          <p class="pillar-desc">Evaluates how well your marketing operations manage regulatory, legal, and reputational risk. This pillar examines data privacy compliance, advertising standards adherence, consent management, and whether your organisation has proactive risk governance or is simply hoping problems do not arise.</p>
+          <div class="leverage-point">
+            <span class="leverage-label">Leverage Point</span>
+            Compliance failures destroy trust instantly and can halt operations entirely — proactive risk management protects the value of every other pillar.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DOMAIN 5: Retention & Growth -->
+    <div class="domain-group domain-5" id="domain-5">
+      <div class="domain-group-header reveal">
+        <div class="domain-group-color" style="background: #f0a030;"></div>
+        <h3>Domain 5 &mdash; Retention &amp; Growth</h3>
+        <span class="domain-group-subtitle">1 Pillar</span>
+      </div>
+
+      <div class="pillar-grid single-pillar">
+        <div class="pillar-card reveal">
+          <div class="pillar-card-header">
+            <span class="pillar-number">19</span>
+            <div class="pillar-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+            </div>
+          </div>
+          <h3>Retention, LTV &amp; Expansion</h3>
+          <p class="pillar-desc">Measures your organisation's capability to retain customers, maximise lifetime value, and systematically expand revenue from existing accounts. This pillar assesses whether retention is treated as a strategic priority with dedicated systems and measurement, or as an afterthought once the initial sale is complete. It examines onboarding effectiveness, engagement monitoring, churn prediction, and expansion revenue mechanisms.</p>
+          <div class="leverage-point">
+            <span class="leverage-label">Leverage Point</span>
+            Acquiring a new customer costs five to seven times more than retaining one — yet most B2B companies invest disproportionately in acquisition while ignoring the highest-margin growth sitting inside their existing customer base.
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- HOW IT WORKS (SURFACE BG) -->
+<section class="how-section">
+  <div class="inner">
+    <div class="section-label reveal">How It Works</div>
+    <h2 class="reveal">Three steps from diagnosis to <em>transformation</em>.</h2>
+    <p class="lead reveal">The M.O.S. is not a theoretical model. It is an operational diagnostic that produces a scored, prioritised action plan.</p>
+
+    <div class="how-grid">
+      <div class="how-card reveal">
+        <div class="how-step-number">1</div>
+        <h3>Score</h3>
+        <p>Every pillar is rated 0&ndash;100 during the Tier 1 diagnostic. The result is a complete maturity map of your marketing operation — revealing strengths, weaknesses, and the gaps you did not know existed.</p>
+      </div>
+      <div class="how-card reveal">
+        <div class="how-step-number">2</div>
+        <h3>Prioritise</h3>
+        <p>Not all pillars matter equally for your business. The highest-leverage interventions are identified and sequenced by expected impact — so you build the right things in the right order.</p>
+      </div>
+      <div class="how-card reveal">
+        <div class="how-step-number">3</div>
+        <h3>Build</h3>
+        <p>Systems are deployed pillar by pillar through Tiers 2&ndash;4 of the engagement. Each build phase delivers standalone value and compounds onto previous work — creating permanent operational infrastructure.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA (WHITE BG) -->
+<section class="cta-section">
+  <div class="x-diamond" style="top:50%;left:50%;transform:translate(-50%,-50%) rotate(45deg);width:500px;height:500px;border-color:rgba(15,21,64,0.04);"></div>
+  <div class="section-label reveal">Start Here</div>
+  <h2 class="reveal">Find out where you <em>stand</em>.</h2>
+  <p class="lead reveal" style="margin: 0 auto 2.5rem;">The M.O.S. diagnostic takes 2&ndash;3 weeks and gives you a score across all 19 pillars — plus a prioritised roadmap for what to fix first.</p>
+  <div class="cta-actions reveal">
+    <a href="contact.html" class="btn-primary">Get Your M.O.S. Score &rarr;</a>
+    <a href="methodology.html" class="btn-secondary">See the Methodology &rarr;</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="logo">xcede</div>
+      <div class="tagline">The Architecture of Growth.</div>
+    </div>
+    <div class="footer-links">
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="about.html">About</a>
+        <a href="methodology.html">Methodology</a>
+        <a href="case-studies.html">Case Studies</a>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <a href="framework.html">AI Maturity Framework</a>
+        <a href="insights.html">Insights</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <a href="https://linkedin.com" target="_blank">LinkedIn</a>
+        <a href="mailto:hello@xcede.ai">Email</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 Xcede. All rights reserved.</p>
+    <p>AI-powered marketing transformation for B2B companies.</p>
+  </div>
+</footer>
+
+<script>
+// Nav scroll behaviour
+const nav = document.querySelector('nav');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 60) { nav.classList.add('scrolled'); }
+  else { nav.classList.remove('scrolled'); }
+}, { passive: true });
+
+// Scroll reveal
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      const parent = entry.target.parentElement;
+      const siblings = parent ? Array.from(parent.querySelectorAll('.reveal')) : [];
+      const siblingIndex = siblings.indexOf(entry.target);
+      const delay = siblingIndex >= 0 ? siblingIndex * 80 : 0;
+      setTimeout(() => { entry.target.classList.add('visible'); }, delay);
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+// Active nav link
+const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+document.querySelectorAll('.nav-links a').forEach(a => {
+  if (a.getAttribute('href') === currentPage) a.classList.add('active');
+});
+
+// Smooth scroll for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+</script>
+
+</body>
+</html>
