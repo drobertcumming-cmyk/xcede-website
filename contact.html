@@ -656,7 +656,7 @@ footer::before {
   nav.scrolled { padding: 0.75rem 1.5rem; }
   .nav-toggle { display: flex; }
   .nav-links {
-    display: none;
+    display: flex;
     position: fixed;
     top: 0; right: 0;
     width: 300px;
@@ -668,11 +668,12 @@ footer::before {
     box-shadow: -8px 0 40px rgba(15, 21, 64, 0.1);
     z-index: 1001;
     transform: translateX(100%);
-    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    visibility: hidden;
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.35s;
   }
   .nav-links.open {
-    display: flex;
     transform: translateX(0);
+    visibility: visible;
   }
   .nav-links li { list-style: none; }
   .nav-links a {
@@ -689,14 +690,17 @@ footer::before {
     border-bottom: none;
   }
   .nav-overlay {
-    display: none;
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
     background: rgba(15, 21, 64, 0.3);
     z-index: 1000;
     backdrop-filter: blur(4px);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.35s, visibility 0.35s;
   }
-  .nav-overlay.open { display: block; }
+  .nav-overlay.open { opacity: 1; visibility: visible; pointer-events: auto; }
   .hero { padding: 7rem 1.5rem 3rem; }
   .two-col { padding: 3rem 1.5rem 5rem; }
   .alt-contact { padding: 5rem 1.5rem; }
