@@ -374,6 +374,135 @@ nav.scrolled {
   font-style: italic;
 }
 
+/* ===== COMPETITIVE URGENCY ===== */
+.urgency-section {
+  padding: 9rem 3.5rem;
+  background: var(--surface);
+  position: relative;
+  overflow: hidden;
+}
+
+.urgency-section::before {
+  content: '';
+  position: absolute;
+  bottom: -80px;
+  right: -80px;
+  width: 300px;
+  height: 300px;
+  border: 1px solid var(--border);
+  transform: rotate(45deg);
+  pointer-events: none;
+}
+
+.urgency-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  align-items: start;
+}
+
+.urgency-content h2 {
+  margin-bottom: 2rem;
+  max-width: 520px;
+}
+
+.urgency-content h2 em {
+  color: var(--accent);
+  font-style: italic;
+}
+
+.urgency-lead {
+  font-size: 1.12rem;
+  line-height: 1.75;
+  color: var(--charcoal);
+  font-weight: 400;
+  margin-bottom: 1.5rem;
+  max-width: 520px;
+}
+
+.urgency-body {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: var(--muted);
+  font-weight: 300;
+  max-width: 520px;
+}
+
+.urgency-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding-top: 0.5rem;
+}
+
+.urgency-stat {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+  padding: 2rem 2.25rem;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.urgency-stat::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+  background: linear-gradient(180deg, var(--accent), var(--teal));
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.urgency-stat:hover {
+  box-shadow: 0 12px 40px rgba(15, 21, 64, 0.06);
+  transform: translateY(-2px);
+}
+
+.urgency-stat:hover::before { transform: scaleY(1); }
+
+.urgency-icon {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 4px;
+  background: var(--deep-blue-light);
+  color: var(--deep-blue-mid);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+}
+
+.urgency-stat:hover .urgency-icon {
+  background: var(--deep-blue);
+  color: var(--white);
+}
+
+.urgency-stat-headline {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--deep-blue);
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.01em;
+}
+
+.urgency-stat-desc {
+  font-size: 0.92rem;
+  line-height: 1.65;
+  color: var(--muted);
+  font-weight: 300;
+}
+
 /* ===== SECTIONS ===== */
 .section-standard {
   padding: 9rem 3.5rem;
@@ -1082,6 +1211,8 @@ footer::before {
   .section-surface { padding: 5rem 1.5rem; }
   .section-dark { padding: 5rem 1.5rem; }
   .cta-section { padding: 5rem 1.5rem; }
+  .urgency-section { padding: 5rem 1.5rem; }
+  .urgency-inner { grid-template-columns: 1fr; gap: 3rem; }
   .problem-grid,
   .build-grid,
   .audience-grid { grid-template-columns: 1fr; }
@@ -1138,6 +1269,57 @@ footer::before {
 <section class="provocation">
   <div class="x-diamond" style="top:-60px;left:-40px;width:300px;height:300px;border-color:rgba(255,255,255,0.03);"></div>
   <p class="reveal">Your marketing team is busy. But is it <em>effective?</em><br>There's a difference — and a system that solves it.</p>
+</section>
+
+<!-- COMPETITIVE URGENCY -->
+<section class="urgency-section">
+  <div class="urgency-inner">
+    <div class="urgency-content">
+      <div class="section-label reveal">The Competitive Reality</div>
+      <h2 class="reveal">Your competitors are building AI marketing systems <em>right now.</em></h2>
+      <p class="urgency-lead reveal">This isn't a technology trend you can adopt later. Companies that build AI-powered marketing infrastructure today are creating compounding advantages that become exponentially harder to close with every quarter that passes.</p>
+      <p class="urgency-body reveal">The gap between AI-mature and AI-immature marketing teams is already measurable — in cost-per-acquisition, in speed to market, in the ability to personalise at scale. And it's widening. The question isn't whether your competitors will adopt AI. It's whether you'll have a system in place before theirs starts outperforming you.</p>
+    </div>
+    <div class="urgency-stats">
+      <div class="urgency-stat reveal">
+        <div class="urgency-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2L12 22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M5 9L12 2L19 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <line x1="4" y1="22" x2="20" y2="22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="urgency-stat-text">
+          <div class="urgency-stat-headline">Early movers compound</div>
+          <div class="urgency-stat-desc">Every month an AI system runs, it learns, optimises, and improves. Companies that start now will be 12–18 months ahead by the time laggards begin.</div>
+        </div>
+      </div>
+      <div class="urgency-stat reveal">
+        <div class="urgency-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M12 6V12L16 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="urgency-stat-text">
+          <div class="urgency-stat-headline">The window is finite</div>
+          <div class="urgency-stat-desc">AI marketing is shifting from competitive advantage to table stakes. The opportunity isn't to be cutting-edge — it's to avoid being left behind.</div>
+        </div>
+      </div>
+      <div class="urgency-stat reveal">
+        <div class="urgency-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 20L8 12L12 15L16 7L20 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="20" cy="4" r="2" stroke="currentColor" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <div class="urgency-stat-text">
+          <div class="urgency-stat-headline">The gap accelerates</div>
+          <div class="urgency-stat-desc">AI-mature teams operate at 3–5x the efficiency of manual teams. That's not a linear gap — it's exponential, and it widens every quarter.</div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
 <!-- PROBLEM -->
